@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trial planner · Bearing unpacking · Rhoda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300..700;1,400&family=Bitter:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="navwrap">
+  <nav class="navpill">
+    <a class="logo" href="#"><img src="assets/rhoda-logo-light.svg" width="130" alt="Rhoda AI"></a>
+    <div class="navlinks"><a href="#">Policies</a><a href="#">Checkpoints</a><a href="#" class="cur">Evaluations</a><a href="#">Robots</a><a href="#">Protocol</a></div>
+  </nav>
+</header>
+
+<div class="layout">
+  <aside class="toc">
+    <div class="toc-label">Studies</div>
+    <a class="toc-item cur" href="#">Bearing unpacking · scaling sweep</a>
+    <a class="toc-sub" href="#trend">Is the trend real?</a>
+    <a class="toc-sub" href="#forecast">Forecast a checkpoint</a>
+    <a class="toc-sub" href="#allocate">Spend the next trials</a>
+    <a class="toc-sub" href="#peek">Looking early</a>
+    <a class="toc-item" href="#">Tray relocation · mobile DVA</a>
+    <a class="toc-item" href="#">Bottle sort + crate transport</a>
+    <div class="toc-label second">Counts</div>
+    <div class="toc-note" id="tocCounts"></div>
+  </aside>
+
+  <main class="article">
+    <h1>Trial planner</h1>
+    <div class="meta"><span id="metaCounts"></span><span class="dot">·</span><span>Bearing unpacking, at-speed completion</span></div>
+    <p class="lede">Real-robot trials are the scarce resource. This page answers the question each study actually asks, forecasts a new checkpoint from its pre-training quality before it touches the robot, and plans where the next trials should go.</p>
+    <hr>
+    <div class="found"><p class="body"><b>What this finds on the published counts:</b></p><ul class="body" id="found"></ul></div>
+
+    <section id="trend">
+      <h2>Is the trend real?</h2>
+      <p class="body">Pairwise letters ask whether two specific checkpoints differ. A scaling claim asks whether performance rises along an ordered axis. With the same trials, a trend test answers that question directly.</p>
+      <figure class="fig">
+        <div class="fig-title">Trend across an ordered sweep</div>
+        <div class="fig-sub" id="trendSub"></div>
+        <div class="tabs" id="trendTabs"><button data-k="compute" class="on">Pre-training compute</button><button data-k="size">Model size</button></div>
+        <svg id="trendChart" class="plot" viewBox="0 0 720 360"></svg>
+        <div class="legend"><span><i class="lg-violin"></i>Posterior over the true rate</span><span><i class="lg-line"></i>Logistic trend, 95% band</span><span><i class="lg-step"></i>Best non-decreasing fit</span></div>
+        <div class="metrics" id="trendMetrics"></div>
+      </figure>
+      <figcaption class="cap"><b>Figure 1.</b> <span id="trendCap"></span></figcaption>
+    </section>
+
+    <section id="forecast">
+      <h2>Forecast a checkpoint before it touches the robot</h2>
+      <p class="body">Pre-training quality (DINO FD on held-out web video) ranked all seven checkpoints in the order the robot did. Fitting that relationship turns a new checkpoint's FD into a forecast with honest uncertainty, and into the number of trials needed to show it beats the incumbent.</p>
+      <figure class="fig">
+        <div class="fig-title">Pre-training quality vs. task performance, with a forecast</div>
+        <div class="fig-sub">Seven evaluated checkpoints and one hypothetical new one. Drag the slider to set its DINO FD.</div>
+        <svg id="fdChart" class="plot" viewBox="0 0 720 372"></svg>
+        <div class="slider-row"><label for="fdSlider">New checkpoint DINO FD</label><input type="range" id="fdSlider" min="3.5" max="14" step="0.1" value="6"><span id="fdVal"></span></div>
+        <div class="metrics" id="fdMetrics"></div>
+      </figure>
+      <figcaption class="cap"><b>Figure 2.</b> <span id="fdCap"></span></figcaption>
+    </section>
+
+    <section id="allocate">
+      <h2>Spend the next trials</h2>
+      <p class="body">Where trials go matters as much as how many. For a trend question, trials at the ends of the sweep carry the most information; a middle point keeps the ability to see saturation.</p>
+      <figure class="fig">
+        <div class="fig-title">Power to detect the compute trend, by allocation</div>
+        <div class="fig-sub" id="allocSub"></div>
+        <div id="allocBars"></div>
+      </figure>
+      <figcaption class="cap"><b>Figure 3.</b> <span id="allocCap"></span></figcaption>
+    </section>
+
+    <section id="peek">
+      <h2>Looking early</h2>
+      <p class="body">Stopping a clearly worse policy early saves trials, but fixed-n tests assume the trial count was set in advance. If the letters are recomputed after every session, the 5% family-wise error no longer holds.</p>
+      <figure class="fig">
+        <div class="fig-title">False separations when every policy is identical</div>
+        <div class="fig-sub" id="peekSub"></div>
+        <div id="peekBars"></div>
+      </figure>
+      <figcaption class="cap"><b>Figure 4.</b> <span id="peekCap"></span></figcaption>
+    </section>
+
+    <footer class="foot">Unofficial concept demo by Mohith Gajjela. Not affiliated with Rhoda AI. Public data: trial counts and DINO FD values from Rhoda's post "Does Scaling Web-Video Pre-training Help Real Robots Do Real Work?" (Sep 10, 2026); power and false-separation figures are simulations. <a href="https://github.com/Mohith26/rhoda-trial-planner">Source</a>.</footer>
+  </main>
+</div>
+<div class="tip" id="tip"></div>
+<script type="module" src="app.js"></script>
+</body>
+</html>
