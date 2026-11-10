@@ -47,7 +47,7 @@ function drawTrend() {
   }
   g += `<path d="M${up.join(' L')} L${dn.join(' L')} Z" fill="#292a27" opacity=".06"/><path d="M${curve.join(' L')}" fill="none" stroke="#292a27" stroke-width="1.6" stroke-dasharray="5 4"/>`;
   // isotonic step
-  let st = ''; iso.fitted.forEach((v, i) => { const x0 = cx(i) - 22, x1 = cx(i) + 22; st += `${i ? 'L' : 'M'}${x0},${Y(v)} L${x1},${Y(v)} `; });
+  let st = ''; iso.fitted.forEach((v, i) => { const x0 = cx(i) - 14, x1 = cx(i) + 14; st += `${i ? 'L' : 'M'}${x0},${Y(v)} L${x1},${Y(v)} `; });
   g += `<path d="${st}" fill="none" stroke="#d55e00" stroke-width="2" opacity=".85"/>`;
   pol.forEach((p, i) => {
     const c = COLORS[i % 4], v = violinPath(cx(i), p.k, p.n, Y, 24), r = p.k / p.n;
